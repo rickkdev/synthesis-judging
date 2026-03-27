@@ -1,0 +1,15 @@
+## Codebase Patterns
+- Projects CSV has 759 total rows; 685 with status "publish" are the ones to judge
+- CSV requires `csv.field_size_limit(sys.maxsize)` due to large fields
+- Each batch story covers 10 projects; judgments output to `judgments/<story_id>.json`
+- Judging criteria: innovation, execution, impact, presentation, agentUse (each 1-10)
+- Project data fields: id, name, description, deployed_url, repo_url, video_url, conversation_log, submission_metadata (JSON with model, tools, skills, commitCount, agentHarness, agentFramework, etc.)
+- Always parse submission_metadata as JSON for structured tool/framework info
+
+---
+
+## Initialization - 2026-03-27
+- Created prd.json with 69 stories (685 published projects in batches of 10)
+- Created progress.txt with codebase patterns
+- Projects sourced from projects.csv (Synthesis hackathon submissions)
+---
