@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Synthesis Hackathon Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         * {
             margin: 0;
@@ -134,26 +147,41 @@
         
         .bar-chart {
             margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
         
         .bar-item {
-            margin: clamp(10px, 2vw, 16px) 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .bar-item:hover {
+            border-color: #c7d2fe;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.1);
+            transform: translateX(2px);
         }
         
         .bar-label {
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: baseline;
             font-size: clamp(0.875rem, 2vw, 1rem);
-            color: #374151;
+            color: #1f2937;
             gap: 12px;
         }
         
         .bar-label span:first-child {
             flex: 1;
             min-width: 0;
+            line-height: 1.4;
         }
         
         .bar-label span:last-child {
@@ -161,36 +189,43 @@
             color: #6366f1;
             font-weight: 700;
             white-space: nowrap;
+            font-size: 1.1em;
         }
         
         .bar-bg {
-            background: #e5e7eb;
-            height: clamp(32px, 5vw, 40px);
-            border-radius: 8px;
-            overflow: hidden;
+            background: #f3f4f6;
+            height: 10px;
+            border-radius: 999px;
+            overflow: visible;
             position: relative;
         }
         
         .bar-fill {
             background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
             height: 100%;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
-            color: white;
-            font-weight: 700;
-            font-size: clamp(0.75rem, 2vw, 0.875rem);
+            border-radius: 999px;
+            position: relative;
             transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            white-space: nowrap;
-            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(99,102,241,0.3);
         }
         
-        @media (max-width: 640px) {
-            .bar-fill {
-                font-size: 0;
-                padding: 0;
-            }
+        .bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 100%);
+            border-radius: 999px;
+        }
+        
+        .bar-count {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 0.8125rem;
+            color: #6b7280;
+            font-weight: 500;
         }
         
         .insights-list {
@@ -425,8 +460,9 @@
                             <span>38.9%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 38.9%;">295 projects</div>
+                            <div class="bar-fill" style="width: 38.9%;"></div>
                         </div>
+                        <div class="bar-count">295 projects</div>
                     </div>
                     <div class="bar-item">
                         <div class="bar-label">
@@ -434,8 +470,9 @@
                             <span>31.4%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 31.4%;">238 projects</div>
+                            <div class="bar-fill" style="width: 31.4%;"></div>
                         </div>
+                        <div class="bar-count">238 projects</div>
                     </div>
                     <div class="bar-item">
                         <div class="bar-label">
@@ -443,8 +480,9 @@
                             <span>15.5%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 15.5%;">118 projects</div>
+                            <div class="bar-fill" style="width: 15.5%;"></div>
                         </div>
+                        <div class="bar-count">118 projects</div>
                     </div>
                     <div class="bar-item">
                         <div class="bar-label">
@@ -452,8 +490,9 @@
                             <span>5.5%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 5.5%;">42 projects</div>
+                            <div class="bar-fill" style="width: 5.5%;"></div>
                         </div>
+                        <div class="bar-count">42 projects</div>
                     </div>
                     <div class="bar-item">
                         <div class="bar-label">
@@ -461,8 +500,9 @@
                             <span>4.6%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 4.6%;">35 projects</div>
+                            <div class="bar-fill" style="width: 4.6%;"></div>
                         </div>
+                        <div class="bar-count">35 projects</div>
                     </div>
                 </div>
             </div>
@@ -479,7 +519,8 @@
                             <span>66.8%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 66.8%;">507 projects</div>
+                            <div class="bar-fill" style="width: 66.8%;"></div>
+                        <div class="bar-count">507 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -488,7 +529,8 @@
                             <span>14.1%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 14.1%;">107 projects</div>
+                            <div class="bar-fill" style="width: 14.1%;"></div>
+                        <div class="bar-count">107 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -497,7 +539,8 @@
                             <span>7.1%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 7.1%;">54 projects</div>
+                            <div class="bar-fill" style="width: 7.1%;"></div>
+                        <div class="bar-count">54 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -506,7 +549,8 @@
                             <span>2.5%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 2.5%;">19 projects</div>
+                            <div class="bar-fill" style="width: 2.5%;"></div>
+                        <div class="bar-count">19 projects</div>
                         </div>
                     </div>
                 </div>
@@ -519,7 +563,8 @@
                             <span>31.6%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 31.6%;">240 projects</div>
+                            <div class="bar-fill" style="width: 31.6%;"></div>
+                        <div class="bar-count">240 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -528,7 +573,8 @@
                             <span>24.0%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 24.0%;">182 projects</div>
+                            <div class="bar-fill" style="width: 24.0%;"></div>
+                        <div class="bar-count">182 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -537,7 +583,8 @@
                             <span>3.4%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 3.4%;">26 projects</div>
+                            <div class="bar-fill" style="width: 3.4%;"></div>
+                        <div class="bar-count">26 projects</div>
                         </div>
                     </div>
                 </div>
@@ -554,7 +601,8 @@
                             <span>34.1%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 34.1%;">259 projects</div>
+                            <div class="bar-fill" style="width: 34.1%;"></div>
+                        <div class="bar-count">259 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -563,7 +611,8 @@
                             <span>22.7%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 22.7%;">172 projects</div>
+                            <div class="bar-fill" style="width: 22.7%;"></div>
+                        <div class="bar-count">172 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -572,7 +621,8 @@
                             <span>21.3%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 21.3%;">162 projects</div>
+                            <div class="bar-fill" style="width: 21.3%;"></div>
+                        <div class="bar-count">162 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -581,7 +631,8 @@
                             <span>20.3%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 20.3%;">154 projects</div>
+                            <div class="bar-fill" style="width: 20.3%;"></div>
+                        <div class="bar-count">154 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -590,7 +641,8 @@
                             <span>20.2%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 20.2%;">153 projects</div>
+                            <div class="bar-fill" style="width: 20.2%;"></div>
+                        <div class="bar-count">153 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -599,7 +651,8 @@
                             <span>16.5%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 16.5%;">125 projects</div>
+                            <div class="bar-fill" style="width: 16.5%;"></div>
+                        <div class="bar-count">125 projects</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -608,7 +661,8 @@
                             <span>12.3%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 12.3%;">93 projects</div>
+                            <div class="bar-fill" style="width: 12.3%;"></div>
+                        <div class="bar-count">93 projects</div>
                         </div>
                     </div>
                 </div>
@@ -626,7 +680,8 @@
                             <span>28.5%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 28.5%;">216 mentions</div>
+                            <div class="bar-fill" style="width: 28.5%;"></div>
+                        <div class="bar-count">216 mentions</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -635,7 +690,8 @@
                             <span>8.4%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 8.4%;">64 mentions</div>
+                            <div class="bar-fill" style="width: 8.4%;"></div>
+                        <div class="bar-count">64 mentions</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -644,7 +700,8 @@
                             <span>7.4%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 7.4%;">56 mentions</div>
+                            <div class="bar-fill" style="width: 7.4%;"></div>
+                        <div class="bar-count">56 mentions</div>
                         </div>
                     </div>
                     <div class="bar-item">
@@ -653,7 +710,8 @@
                             <span>5.5%</span>
                         </div>
                         <div class="bar-bg">
-                            <div class="bar-fill" style="width: 5.5%;">42 mentions</div>
+                            <div class="bar-fill" style="width: 5.5%;"></div>
+                        <div class="bar-count">42 mentions</div>
                         </div>
                     </div>
                 </div>
