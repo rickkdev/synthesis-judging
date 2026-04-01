@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthesis Hackathon Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        section {
+            padding: 40px;
+        }
+        
+        section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        section h3 {
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #764ba2;
+        }
+        
+        .chart-container {
+            margin: 30px 0;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .bar-chart {
+            margin: 20px 0;
+        }
+        
+        .bar-item {
+            margin: 12px 0;
+        }
+        
+        .bar-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .bar-bg {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .bar-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: width 1s ease-out;
+        }
+        
+        .insights-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .insights-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        
+        .insights-list strong {
+            color: #667eea;
+        }
+        
+        .project-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .project-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 4px solid #667eea;
+        }
+        
+        .project-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .feedback-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            margin-top: 40px;
+        }
+        
+        .feedback-section h2 {
+            color: white;
+            border-bottom-color: white;
+        }
+        
+        .feedback-items {
+            display: grid;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .feedback-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feedback-card h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            margin: 5px;
+            font-size: 0.85em;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #666;
+        }
+        
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Synthesis Hackathon Analysis</h1>
+            <p>Agent Development Insights from 759 Projects</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">759</div>
+                <div class="stat-label">Total Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">685</div>
+                <div class="stat-label">Published Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">90%</div>
+                <div class="stat-label">Continuing Post-Hackathon</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">64.3</div>
+                <div class="stat-label">Avg Commits per Project</div>
+            </div>
+        </div>
+
+        <section>
+            <h2>🤖 Agent Harnesses</h2>
+            <p>What developers used to build their agents:</p>
+            <div class="chart-container">
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Claude Code</span>
+                            <span>38.9%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 38.9%;">295 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>OpenClaw</span>
+                            <span>31.4%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 31.4%;">238 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Other (Antigravity, Hermes, etc.)</span>
+                            <span>15.5%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 15.5%;">118 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Codex CLI</span>
+                            <span>5.5%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 5.5%;">42 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Cursor</span>
+                            <span>4.6%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 4.6%;">35 projects</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>🧠 Model Usage</h2>
+            <div class="chart-container">
+                <h3>Model Families</h3>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Claude (Anthropic)</span>
+                            <span>66.8%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 66.8%;">507 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>GPT/OpenAI</span>
+                            <span>14.1%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 14.1%;">107 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Gemini (Google)</span>
+                            <span>7.1%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 7.1%;">54 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Llama (Meta)</span>
+                            <span>2.5%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 2.5%;">19 projects</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Top Specific Models</h3>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Claude Opus 4.6</span>
+                            <span>31.6%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 31.6%;">240 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Claude Sonnet 4.6</span>
+                            <span>24.0%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 24.0%;">182 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>GPT-5</span>
+                            <span>3.4%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 3.4%;">26 projects</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>🛠️ Most Used Tools</h2>
+            <div class="chart-container">
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>viem</span>
+                            <span>34.1%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 34.1%;">259 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Hardhat</span>
+                            <span>22.7%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 22.7%;">172 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Ethers.js</span>
+                            <span>21.3%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 21.3%;">162 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Vercel</span>
+                            <span>20.3%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 20.3%;">154 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Next.js</span>
+                            <span>20.2%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 20.2%;">153 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>Foundry</span>
+                            <span>16.5%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 16.5%;">125 projects</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>ERC-8004</span>
+                            <span>12.3%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 12.3%;">93 projects</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>📚 Skills That Mattered</h2>
+            <div class="chart-container">
+                <h3>Most Requested Skills</h3>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>web-search</span>
+                            <span>28.5%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 28.5%;">216 mentions</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>github</span>
+                            <span>8.4%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 8.4%;">64 mentions</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>coding-agent</span>
+                            <span>7.4%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 7.4%;">56 mentions</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>frontend-design</span>
+                            <span>5.5%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 5.5%;">42 mentions</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Key Insights</h3>
+            <ul class="insights-list">
+                <li><strong>web-search</strong> was by far the most valuable skill — developers needed agents to find documentation, examples, and troubleshoot issues autonomously.</li>
+                <li><strong>github</strong> integration was critical for commit management, releases, and deployment verification.</li>
+                <li><strong>frontend-design</strong> helped agents make architecture decisions for React+Express stacks and UI patterns.</li>
+                <li><strong>swap-integration</strong> provided complete Uniswap Trading API flows — quote, approval, swap.</li>
+                <li><strong>synthesis-hackathon</strong> skill enabled autonomous registration and ERC-8004 identity setup.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>🌟 Notable Projects</h2>
+            <div class="project-examples">
+                <div class="project-card">
+                    <h4>TeliGent</h4>
+                    <p>Actively protecting Telegram communities from scams. Plans include expanding scam pattern library, multi-language support, and agent-to-agent service marketplace.</p>
+                </div>
+                <div class="project-card">
+                    <h4>PolicyPay</h4>
+                    <p>Infrastructure for agent payments. Post-hackathon plans: generalize policy DSL, add ZK proofs of trace correctness, open-source PolicyRegistry.</p>
+                </div>
+                <div class="project-card">
+                    <h4>gitlawb</h4>
+                    <p>Main product building toward v1.0 with IPFS/Filecoin integration, ENS resolution, and a marketplace where agents hire and pay other agents for coding tasks.</p>
+                </div>
+                <div class="project-card">
+                    <h4>EMET</h4>
+                    <p>Live infrastructure with active agent operations. Goal: 100 registered agents by June 2026. Integration with AgentGrid/Casper Network in progress.</p>
+                </div>
+                <div class="project-card">
+                    <h4>BlindOracle</h4>
+                    <p>Production system with active agent operations. Roadmap includes agent marketplace, verification-as-a-service, and expanded prediction market coverage.</p>
+                </div>
+                <div class="project-card">
+                    <h4>Proof of Corn</h4>
+                    <p>Multi-season challenge where Fred (autonomous agent) will manage the 2026 growing season autonomously.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>📊 Key Statistics</h2>
+            <ul class="insights-list">
+                <li><strong>90% of projects are continuing</strong> beyond the hackathon — these aren't just demos, they're real products.</li>
+                <li><strong>Median 10 commits</strong> per project, but mean is 64.3 — some power users pushed 7000+ commits.</li>
+                <li><strong>Only 21% provided Moltbook posts</strong> — opportunity for better documentation/blogging adoption.</li>
+                <li><strong>Median 1 contributor</strong> per project — most were solo builders.</li>
+                <li><strong>2,481 total skill mentions</strong> across 759 projects — average of 3.3 skills per project.</li>
+                <li><strong>6,358 total tool mentions</strong> — developers leveraged modern web3 stacks heavily.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>🔗 Most Referenced Resources</h2>
+            <div class="chart-container">
+                <p><strong>2,511 URLs shared across 607 projects</strong></p>
+                <div style="margin-top: 20px;">
+                    <span class="tag">synthesis.md (313)</span>
+                    <span class="tag">synthesis.devfolio.co (231)</span>
+                    <span class="tag">eips.ethereum.org (223)</span>
+                    <span class="tag">github.com (157)</span>
+                    <span class="tag">docs.lido.fi (79)</span>
+                    <span class="tag">docs.base.org (78)</span>
+                    <span class="tag">docs.venice.ai (70)</span>
+                    <span class="tag">viem.sh (62)</span>
+                    <span class="tag">docs.uniswap.org (60)</span>
+                    <span class="tag">docs.celo.org (55)</span>
+                    <span class="tag">ethskills.com (40)</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="feedback-section">
+            <h2>💡 Feedback for ethskills.com</h2>
+            <div class="feedback-items">
+                <div class="feedback-card">
+                    <h3>✅ What Worked Well</h3>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li>40 direct references to ethskills.com — clear value in the hackathon</li>
+                        <li>Skills like <code>synthesis-hackathon</code>, <code>ethskills</code>, <code>swap-integration</code>, and <code>x402-payments</code> were heavily used</li>
+                        <li>Developers appreciated skills that provided complete flows (e.g., Uniswap quote → approval → swap)</li>
+                        <li>Security-focused skills like <code>ethskills-security</code> and <code>ethskills-testing</code> were requested</li>
+                    </ul>
+                </div>
+
+                <div class="feedback-card">
+                    <h3>🚀 Opportunities for Growth</h3>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li><strong>Discovery problem:</strong> Only 4.6% (35 projects) explicitly mentioned ethskills in their stack, despite 40 URL references — developers may not know what's available</li>
+                        <li><strong>Skill onboarding:</strong> Most helpful skill feedback mentioned <em>specific</em> workflows (e.g., "taught Hermes the full contract API and CLI commands") — skills should include hands-on examples</li>
+                        <li><strong>Skill coverage gaps:</strong> Top requests included frontend-design (32), ai-coding (15), agent-browser (5) — consider expanding beyond pure blockchain skills</li>
+                        <li><strong>Integration depth:</strong> Developers valued skills that integrated with their entire stack (GitHub, deployment, testing, frontend) — not just isolated smart contract tools</li>
+                        <li><strong>Moltbook adoption:</strong> Only 21% blogged about their projects — could ethskills provide a "project showcase" skill to auto-generate write-ups?</li>
+                    </ul>
+                </div>
+
+                <div class="feedback-card">
+                    <h3>🎯 Specific Requests from Developers</h3>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li><strong>solidity-auditor</strong> (5 requests) — automated security review</li>
+                        <li><strong>zk-prediction-market</strong> (3 requests) — privacy-preserving patterns</li>
+                        <li><strong>agent-reasoning</strong> (3 requests) — decision-making with minimal info</li>
+                        <li><strong>systematic-debugging</strong> (3 requests) — troubleshooting complex agent failures</li>
+                        <li><strong>firecrawl</strong> (3 requests) — web scraping for agent research</li>
+                    </ul>
+                </div>
+
+                <div class="feedback-card">
+                    <h3>💬 Direct Quotes from Submissions</h3>
+                    <blockquote style="margin: 15px 0; padding-left: 15px; border-left: 3px solid rgba(255,255,255,0.5); font-style: italic;">
+                        "The synthesis-hackathon skill enabled autonomous hackathon registration and ERC-8004 identity"
+                    </blockquote>
+                    <blockquote style="margin: 15px 0; padding-left: 15px; border-left: 3px solid rgba(255,255,255,0.5); font-style: italic;">
+                        "swap-integration provided complete Uniswap Trading API integration — quote, approval, swap flow — deployed as live API endpoints"
+                    </blockquote>
+                    <blockquote style="margin: 15px 0; padding-left: 15px; border-left: 3px solid rgba(255,255,255,0.5); font-style: italic;">
+                        "MASSAT audit identified 3 critical vulnerabilities in agent-to-agent payment flows before mainnet deployment"
+                    </blockquote>
+                </div>
+
+                <div class="feedback-card">
+                    <h3>🔮 Strategic Recommendations</h3>
+                    <ol style="margin-top: 15px; padding-left: 20px;">
+                        <li><strong>Skill marketplace/directory:</strong> Make it dead simple to browse and install skills — developers want autocomplete, not hunting through docs</li>
+                        <li><strong>End-to-end workflow skills:</strong> Package common patterns (ERC-20 deploy → verify → list on DEX) as single skills</li>
+                        <li><strong>Agent-specific skills:</strong> Build skills that teach agents how to use OTHER agents (via ERC-8004, x402, etc.)</li>
+                        <li><strong>Quality over quantity:</strong> 216 developers needed web-search — focus on making core skills incredibly robust before expanding catalog</li>
+                        <li><strong>Community contribution:</strong> Enable developers to publish their own skills — gitlawb is already building this model</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Analysis generated from <a href="https://github.com/rickkdev/synthesis-judging" target="_blank">synthesis-judging repository</a></p>
+            <p style="margin-top: 10px; opacity: 0.7;">Data from 759 hackathon submissions • April 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
